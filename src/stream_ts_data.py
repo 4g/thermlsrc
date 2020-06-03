@@ -3,6 +3,7 @@ from random import randint
 import json
 import argparse
 import time
+from datetime import datetime
 
 class VirtualLoad:
     def __init__(self,
@@ -27,6 +28,7 @@ class VirtualLoad:
                           randint(1, self.maxval) for i in range(self.num_sensors)}
 
     def push(self):
+        self.state["timestamp"] = str(datetime.now())
         state_json = json.dumps(self.state)
         print (state_json)
         requests.post(url=self.url, json=state_json)
@@ -48,7 +50,7 @@ if __name__ == "__main__":
     parser.add_argument("-n", help="num_requests", required=False, default=10000, type=int)
     parser.add_argument("-s", help="num_sensors", required=False, default=100, type=int)
     parser.add_argument("-m", help="maxval", required=False, default=100, type=float)
-
+    
     args = parser.parse_args()
     load = VirtualLoad(url=args.u,
                        rate=args.r,
