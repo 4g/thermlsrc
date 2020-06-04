@@ -1,11 +1,14 @@
 import requests
-from random import randint
 import json
 import argparse
 import time
+
+from random import randint
 from datetime import datetime
+from tqdm import tqdm
 
 class VirtualLoad:
+    TIMESTAMP = "timestamp"
     def __init__(self,
                  url="http://localhost:8000/tsdb_push?",
                  rate=100,
@@ -27,18 +30,20 @@ class VirtualLoad:
         self.state = {"sensor" + str(i) :
                           randint(1, self.maxval) for i in range(self.num_sensors)}
 
+
     def push(self):
-        self.state["timestamp"] = str(datetime.now())
+        self.state[VirtualLoad.TIMESTAMP] = str(datetime.now())
         state_json = json.dumps(self.state)
-        print (state_json)
-        requests.post(url=self.url, json=state_json)
+        requests.post(url=self.url,
+                      json=state_json)
 
     def step(self):
         for i in self.state:
-            self.state[i] += (randint(0, self.maxval) - self.maxval//2)/(self.maxval/4 + 0.1)
+            if i != VirtualLoad.TIMESTAMP:
+                self.state[i] += (randint(0, self.maxval) - self.maxval//2)/(self.maxval/4 + 0.1)
 
     def run(self):
-        for i in range(self.num_requests):
+        for i in tqdm(range(self.num_requests), desc="Sending requests.."):
             self.step()
             self.push()
             time.sleep(1/self.rate)
@@ -50,7 +55,7 @@ if __name__ == "__main__":
     parser.add_argument("-n", help="num_requests", required=False, default=10000, type=int)
     parser.add_argument("-s", help="num_sensors", required=False, default=100, type=int)
     parser.add_argument("-m", help="maxval", required=False, default=100, type=float)
-    
+
     args = parser.parse_args()
     load = VirtualLoad(url=args.u,
                        rate=args.r,
