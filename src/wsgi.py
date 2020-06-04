@@ -1,4 +1,4 @@
 from app import create_app
-config = "config.Dev"
-application = create_app(config)
+from config import DevConfig
+application = create_app(DevConfig)
 
