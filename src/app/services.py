@@ -10,5 +10,5 @@ class Service:
     return self.influx_dao.create_database(database_name)
 
   def write_point(self, data):
-    self.log.debug(data)
+    self.log.error(f'Data in json: {data}')
     return self.influx_dao.write_point(point= data, database='YO')
