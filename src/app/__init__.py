@@ -8,7 +8,10 @@ def create_app(config_file_name):
   api = Api(app)
   app.config.from_object(config_file_name)
   from app.routes.data_transfer import DataTransfer
+  from app.routes.bulk_point_insert import BulkPointInsert
   api.add_resource(DataTransfer, '/point/insert', resource_class_kwargs={
+    'logger': app.logger})
+  api.add_resource(BulkPointInsert, '/point/insert/bulk', resource_class_kwargs={
     'logger': app.logger})
   return app
 

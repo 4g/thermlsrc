@@ -34,7 +34,7 @@ class VirtualLoad:
     TIMESTAMP = "timestamp"
     def __init__(self,
                  source,
-                 url="http://localhost:8000/tsdb_push?",
+                 url="http://localhost:5000/point/insert",
                  rate=100,
                  num_requests=10000):
         """
@@ -58,8 +58,8 @@ class VirtualLoad:
         self.state[VirtualLoad.TIMESTAMP] = str(datetime.now())
         state_json = json.dumps(self.state)
         print (state_json)
-        # requests.post(url=self.url,
-        #               json=state_json)
+        requests.post(url=self.url,
+                      json=state_json)
 
     def step(self):
         self.source.step()
