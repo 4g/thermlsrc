@@ -45,18 +45,18 @@ intermediate_weights = 'dqn_{step}_weights.h5f'
 
 from rl.callbacks import ModelIntervalCheckpoint
 
-test = False
-train = True
+test = True
+train = False
 
 if train:
     save_weights = ModelIntervalCheckpoint(intermediate_weights, 10000, verbose=0)
     callbacks = [save_weights]
-    dqn.fit(env, nb_steps=50000, visualize=False, verbose=2)
+    dqn.fit(env, nb_steps=50000, visualize=False, verbose=1)
     dqn.save_weights(weights_name, overwrite=True)
 
 if test:
     import time
     time.sleep(5)
-    dqn.load_weights(intermediate_weights.format(step=20000))
-    # dqn.load_weights(weights_name)
-    dqn.test(env, nb_episodes=5, visualize=False)
+    # dqn.load_weights(intermediate_weights.format(step=20000))
+    dqn.load_weights(weights_name)
+    dqn.test(env, nb_episodes=5, visualize=True)

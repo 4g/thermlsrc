@@ -43,12 +43,13 @@ ntc = t_cool/dt
 T = np.ones(n)*T0
 dTdt = np.empty(n)
 
+from tqdm import tqdm
 
-for j in range(1,len(t)):
+for j in tqdm(range(1,len(t))):
 
     plt.clf()
     for i in range(1, n-1):
-        
+
         dTdt[i] = alpha*((T[i+1]-2*T[i]+T[i-1])/dx**2)
         
     dTdt[0] = alpha*((T[1]-2*T[0]+T_hot)/dx**2)
@@ -66,12 +67,12 @@ for j in range(1,len(t)):
     if (j>=ntc):
         T[5] = T_cold
     
-    #print(T-273.15)
+    print(T-273.15)
     
-    plt.figure(1)
-    plt.plot(x,T-273.15)
-    plt.axis([0, l, 0, 50])
-    plt.xlabel('Distance (m)')
-    plt.ylabel('Temperature (C)')
-    plt.show()
-    plt.pause(0.01)
+    # plt.figure(1)
+    # plt.plot(x, T-273.15)
+    # plt.axis([0, l, 0, 50])
+    # plt.xlabel('Distance (m)')
+    # plt.ylabel('Temperature (C)')
+    # plt.show()
+    # plt.pause(0.01)
