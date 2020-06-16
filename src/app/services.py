@@ -8,7 +8,7 @@ class Service:
 
   def __init__(self):
     self.influx_dao = InfluxDBDao()
-    self.log = logging.getLogger("Service")
+    self.log = logging.getLogger(__name__)
     self.tz = pytz.timezone("Asia/Calcutta")
 
   def create_db(self,database_name):
