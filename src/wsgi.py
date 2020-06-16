@@ -1,6 +1,7 @@
 from app import create_app
 from config import DevConfig
 import logging
+
 application = create_app(DevConfig)
 
 gunicorn_logger = logging.getLogger('gunicorn.error')

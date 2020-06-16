@@ -6,22 +6,22 @@ load_dotenv(path.join(basedir, '.env'))
 
 
 class Config:
-  """Base config."""
-  SECRET_KEY = environ.get('SECRET_KEY')
-  SESSION_COOKIE_NAME = environ.get('SESSION_COOKIE_NAME')
+    """Base config."""
+    SECRET_KEY = environ.get('SECRET_KEY')
+    SESSION_COOKIE_NAME = environ.get('SESSION_COOKIE_NAME')
 
 
 class ProdConfig(Config):
-  FLASK_ENV = 'production'
-  DEBUG = False
-  TESTING = False
-  DATABASE_URL = environ.get('DATABASE_URL')
-  DATABASE_PORT = environ.get('DATABASE_PORT')
+    FLASK_ENV = 'production'
+    DEBUG = False
+    TESTING = False
+    DATABASE_URL = environ.get('DATABASE_URL')
+    DATABASE_PORT = environ.get('DATABASE_PORT')
 
 
 class DevConfig(Config):
-  FLASK_ENV = 'development'
-  DEBUG = True
-  TESTING = True
-  DATABASE_URL = environ.get('DATABASE_URL')
-  DATABASE_PORT = environ.get('DATABASE_PORT')
+    FLASK_ENV = 'development'
+    DEBUG = True
+    TESTING = True
+    DATABASE_URL = environ.get('DATABASE_URL')
+    DATABASE_PORT = environ.get('DATABASE_PORT')

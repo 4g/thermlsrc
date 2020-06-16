@@ -9,6 +9,10 @@ def hello(ctx, name='World'):
 def start_gunicorn(ctx, env='local'):
     pip_install_requirements = 'pip install -r requirements.txt'
     gunicorn_start = 'gunicorn -c gunicorn_config.py wsgi:application'
+    # start_venv = 'source ../venv/bin/activate'
+    # import sys
+    # if not (hasattr(sys, 'real_prefix') or (hasattr(sys, 'base_prefix') and sys.base_prefix != sys.prefix)):
+    #     local(start_venv)
     if env == 'local':
         local(pip_install_requirements)
         local(gunicorn_start)
