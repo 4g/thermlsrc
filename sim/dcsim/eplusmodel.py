@@ -1,4 +1,5 @@
 import opyplus as op
+import os
 
 class EplusModelDC:
     def __init__(self, idf_file, weather_file):
@@ -76,24 +77,32 @@ class EplusModelDC:
             self.schedules[name][key] = value
 
     def simulate(self, odir):
-        return op.simulate(self.epm, self.weather, odir)
+        return op.simulate(self.epm, self.weather, odir, print_function=print, beat_freq=30.0)
 
     def get_modifiables(self):
         return self.schedule_values
 
+def get_config_path(config):
+    dirname = os.path.dirname(__file__)
+    filename = os.path.join(dirname, config)
+    print (filename)
+    return filename
+
 class EplusExperiment:
     def __init__(self, name):
-        self.eplusmodel_a = EplusModelDC("dc_specs/2ZoneDataCenterHVAC_wEconomizer.idf",
-                                         "dc_specs/IND_Bangalore.432950_ISHRAE.epw")
+        self.eplusmodel_a = EplusModelDC(get_config_path("dc_specs/2ZoneDataCenterHVAC_wEconomizer.idf"),
+                                         get_config_path("dc_specs/IND_Bangalore.432950_ISHRAE.epw"))
         self.name = name
+
 
     def set_a(self, name, a):
         self.eplusmodel_a.update_schedule(name, a)
 
     def run(self):
-        sim_a = self.eplusmodel_a.simulate(self.name + "_a")
-        a_eso = sim_a.get_out_eso().get_data()
-        return a_eso
+        sim_a = self.eplusmodel_a.simulate(self.name)
+        return None
+        #a_eso = sim_a.get_out_eso().get_data()
+        #return a_eso
 
     def set_period(self, start, end):
         self.eplusmodel_a.set_period(start, end)
