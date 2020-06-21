@@ -1,5 +1,5 @@
 pidfile = '/tmp/data-transfer-app.pid'
-errorlog = '/tmp/gunicorn.log'
+errorlog = '/var/log/data_transfer_app/gunicorn_error.log'
 loglevel = 'debug'
 bind = '127.0.0.1:5000'
 daemon = False

@@ -17,7 +17,7 @@ class Service:
         return self.influx_dao.create_database(database_name)
     
     def write_point(self, data):
-        self.log.error(f'Data in json: {data}')
+        self.log.debug(f'Data in json: {data}')
         return self.influx_dao.write_point(point=data, database='YO')
     
     def bulk_write_points(self, request):
@@ -25,7 +25,7 @@ class Service:
         request_obj = request.get_json()
         file_path = '/tmp/' + request_obj.get('file_name')
         self.log.info(f'Bulk inserting file content {file_path}')
-        self.log.error(f'Bulk inserting file content {file_path}')
+        self.log.debug(f'Bulk inserting file content {file_path}')
         points = self.get_points_for_flat_file(file_path)
         self.influx_dao.bulk_write_points(points, 'YO', 'Flat')
     
@@ -53,12 +53,12 @@ class Service:
                     point['time'] = unix_timestamp
                     points.append(point)
                     self.log.info(f'Point {point}')
-                    # self.log.error(f'Processed {point}')
+                    # self.log.debug(f'Processed {point}')
                 
                 line_count += 1
         
         self.log.info(f'Processed {line_count} rows')
-        self.log.error(f'Processed {line_count} rows')
+        self.log.debug(f'Processed {line_count} rows')
         return points
     
     def get_points_for_flat_file(self, file_path):
@@ -71,7 +71,7 @@ class Service:
                 if line_count == 0:
                     tags = row[1:]
                     tags = self.cleanup_tags(tags)
-                    self.log.error(f"Tags {tags}")
+                    self.log.debug(f"Tags {tags}")
                     # import pdb;pdb.set_trace()
                 else:
                     raw_timestamp = row[0]
@@ -90,12 +90,12 @@ class Service:
                     point['time'] = unix_timestamp
                     points.append(point)
                     self.log.info(f'Point {point}')
-                    # self.log.error(f'Processed {point}')
+                    # self.log.debug(f'Processed {point}')
                 
                 line_count += 1
         
         self.log.info(f'Processed {line_count} rows')
-        self.log.error(f'Processed {line_count} rows')
+        self.log.debug(f'Processed {line_count} rows')
         return points
     
     def cleanup_tags(self, tags):

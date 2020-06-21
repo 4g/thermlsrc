@@ -11,5 +11,5 @@ class BulkPointInsert(Resource):
     
     def post(self):
         # import pdb;pdb.set_trace()
-        self.logger.error(request)
+        self.logger.debug(request)
         self.service.bulk_write_points(request)

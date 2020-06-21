@@ -11,7 +11,7 @@ class DataTransfer(Resource):
         self.logger = logging.getLogger(__name__)
     
     def get(self):
-        # self.service.create_db('New')
+        self.service.create_db('New')
         # import pdb;
         # pdb.set_trace()
         self.logger.debug("Debug")
@@ -21,5 +21,5 @@ class DataTransfer(Resource):
     
     def post(self):
         # import pdb;pdb.set_trace()
-        self.logger.error(request)
+        self.logger.debug(request)
         self.service.write_point(request.get_json())
