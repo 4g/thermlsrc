@@ -1,7 +1,7 @@
 pidfile = '/tmp/data-transfer-app.pid'
 errorlog = '/var/log/data_transfer_app/gunicorn_error.log'
 loglevel = 'debug'
-bind = '127.0.0.1:5000'
+bind = '127.0.0.1:5001'
 daemon = False
 workers = 4
 worker_class = 'sync'

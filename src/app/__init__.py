@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from influxdb import InfluxDBClient
 from flask_restful import Api, Resource
 import logging
@@ -6,13 +7,17 @@ import logging
 def create_app(config_file_name):
   app = Flask(__name__)
   api = Api(app)
+  CORS(app, resources={r"*": {"origins": "*"}})
   app.config.from_object(config_file_name)
   logger = logging.getLogger('gunicorn.debug')
   from app.routes.data_transfer import DataTransfer
   from app.routes.bulk_point_insert import BulkPointInsert
+  from app.routes.sample import Sample
   api.add_resource(DataTransfer, '/point/insert', resource_class_kwargs={
     'logger': logger})
   api.add_resource(BulkPointInsert, '/point/insert/bulk', resource_class_kwargs={
+    'logger': logger})
+  api.add_resource(Sample, '/point/sample/', resource_class_kwargs={
     'logger': logger})
   return app
 
